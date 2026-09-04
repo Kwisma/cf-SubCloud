@@ -1,0 +1,33 @@
+# 不要随意改变关键字，否则会导致出错
+# 自动测速：支持
+#制作日期：2025-07-31
+
+proxy-groups:
+  - name: 🚀 节点选择
+    type: select
+    include-all: true
+    proxies:
+      - ♻️ 自动选择
+
+  - name: ♻️ 自动选择
+    type: url-test
+    include-all: true
+    exclude-filter: (?i)GB|Traffic|Expire|Premium|频道|订阅|ISP|流量|到期|重置|用户|官网
+    url: https://www.gstatic.com/generate_204
+    interval: 300
+    tolerance: 60
+
+rules:
+  #10.0.0.0/24和192.168.168.0/24为本人自用网段，可删除
+  - IP-CIDR,10.0.0.0/24,♻️ 自动选择
+  - IP-CIDR,192.168.168.0/24,♻️ 自动选择
+  - AND,((IP-CIDR,8.8.8.8/32),(DST-PORT,53)),DIRECT
+  - GEOSITE,private,DIRECT
+  - GEOSITE,category-ir,DIRECT
+  - GEOSITE,cn,DIRECT
+  - GEOSITE,category-ru,DIRECT
+  - GEOIP,private,DIRECT,no-resolve
+  - GEOIP,ir,DIRECT,no-resolve
+  - GEOIP,cn,DIRECT,no-resolve
+  - GEOIP,ru,DIRECT,no-resolve
+  - MATCH,🚀 节点选择
